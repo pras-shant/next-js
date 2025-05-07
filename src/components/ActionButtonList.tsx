@@ -1,5 +1,4 @@
 'use client';
-
 import { useDisconnect, useAppKit, useAppKitNetwork, useAppKitAccount } from '@reown/appkit/react';
 import { networks } from '@/config';
 import { useSignMessage } from 'wagmi';
@@ -17,7 +16,6 @@ export const ActionButtonList = () => {
   const [signature, setSignature] = useState<string | null>(null);
   const [verificationResult, setVerificationResult] = useState<string | null>(null);
 
-  // Fetch a nonce from the backend
   const fetchNonce = async () => {
     try {
       const response = await fetch(`http://localhost:3001/api/generate-nonce?address=${address}`);
@@ -25,17 +23,14 @@ export const ActionButtonList = () => {
       const data = await response.json();
       setNonce(data.nonce);
       console.log('Nonce fetched:', data.nonce);
+      return data.nonce;
     } catch (error) {
       console.error('Error fetching nonce:', error);
+      throw error;
     }
   };
 
-  // Sign a message with the nonce
-  const handleSignMsg = async () => {
-    if (!nonce) {
-      console.error('Nonce is required to sign the message.');
-      return;
-    }
+  const handleSignMsg = async (nonce: string) => {
     try {
       const message = `Hello Reown AppKit! Nonce: ${nonce}`;
       const sig = await signMessageAsync({ message, account: address as Address });
@@ -46,7 +41,17 @@ export const ActionButtonList = () => {
     }
   };
 
-  // Verify the signature
+  const fetchAndSign = async () => {
+    try {
+      const nonce = await fetchNonce();
+      if (nonce) {
+        await handleSignMsg(nonce);
+      }
+    } catch (error) {
+      console.error('Error in fetch and sign:', error);
+    }
+  };
+
   const verifySignature = async () => {
     if (!nonce || !signature || !address) {
       console.error('Nonce, signature, and address are required for verification.');
@@ -87,8 +92,7 @@ export const ActionButtonList = () => {
       <button onClick={() => switchNetwork(networks[1])}>Switch</button>
       {isConnected && (
         <div>
-          <button onClick={fetchNonce}>Fetch Nonce</button>
-          <button onClick={handleSignMsg}>Sign Message</button>
+          <button onClick={fetchAndSign}>Fetch Nonce & Sign Message</button>
           <button onClick={verifySignature}>Verify Signature</button>
           {verificationResult && <p>{verificationResult}</p>}
         </div>
