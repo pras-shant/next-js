@@ -1,14 +1,15 @@
-// import { cookieStorage, createStorage, http } from '@wagmi/core'
-import { ConnectButton } from "@/components/ConnectButton";
-import { InfoList } from "@/components/InfoList";
-import { ActionButtonList } from "@/components/ActionButtonList";
-import Image from "next/image";
+'use client';
+import Layout from '@/components/layout/layout';
+import { ActionButtonList } from '@/components/ActionButtonList';
+import { InfoList } from '@/components/InfoList';
 
 export default function Home() {
   return (
-    <div className={"pages"}>
-      <ActionButtonList />
-      <InfoList />
-    </div>
+    <Layout>
+      <div>
+        <ActionButtonList />
+        <InfoList />
+      </div>
+    </Layout>
   );
 }

@@ -1,0 +1,44 @@
+.layout-container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .layout-sidebar {
+    width: 250px;
+    background-color: #2c3e50;
+    color: white;
+    padding: 20px;
+  }
+  
+  .layout-sidebar h2 {
+    margin-bottom: 20px;
+    font-size: 1.5em;
+  }
+  
+  .layout-sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .layout-sidebar ul li {
+    margin: 10px 0;
+  }
+  
+  .layout-sidebar ul li a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .layout-sidebar ul li a:hover {
+    text-decoration: underline;
+  }
+  
+  .layout-main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ecf0f1;
+    padding: 20px;
+  }
+  
