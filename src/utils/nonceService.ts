@@ -1,16 +1,14 @@
-type NonceData = {
-    nonce: string;
-    expiration: number;
-  };
-  
-  const nonces = new Map<string, NonceData>();
-  
-  export const checkNonce = (address: string, nonce: string): boolean => {
-    const storedData = nonces.get(address.toLowerCase());
-    if (!storedData || storedData.nonce !== nonce || Date.now() > storedData.expiration) {
-      return false;
-    }
-    nonces.delete(address.toLowerCase());
-    return true;
-  };
-  
+import User from '../models/user'; // Adjust the path to your User model
+
+export const checkNonce = async (address: string, nonce: string): Promise<boolean> => {
+  const user = await User.findOne({ user_address: address.toLowerCase() });
+
+  if (!user || user.nonce !== nonce) {
+    return false;
+  }
+
+  // Invalidate the nonce after successful validation
+  await User.findOneAndUpdate({ user_address: address.toLowerCase() }, { nonce: '' });
+
+  return true;
+};

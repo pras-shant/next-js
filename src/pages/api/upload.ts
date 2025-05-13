@@ -3,6 +3,8 @@ import { uploadToS3 } from "@/lib/s3";
 import { connectDB } from "@/lib/db";
 import DockerImage, { IDockerImage } from "@/models/DockerImage";
 // import { v4 as uuidv4 } from "uuid";
+import { StatusCodes, getReasonPhrase } from 'http-status-codes';
+
 import Busboy from "busboy";
 
 export const config = {
@@ -13,7 +15,7 @@ export const config = {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== "POST") {
-    return res.status(405).json({ error: `Method ${req.method} not allowed` });
+    return res.status(StatusCodes.FORBIDDEN).json({ error: `Method ${req.method} not allowed` });
   }
 
   try {
@@ -53,7 +55,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         
         console.log("Uploading to S3...");
         const uniqueFileName = `agent_${userWallet}_${Date.now()}.tar`;
-        const s3Url = await uploadToS3({ buffer: fileBuffer, filename: uniqueFileName, mimetype: mimeType });
+        const s3Url = await upload  ToS3({ buffer: fileBuffer, filename: uniqueFileName, mimetype: mimeType });
         console.log("File uploaded to S3:", s3Url);
         const dockerImage: IDockerImage = new DockerImage({
           image_name: uniqueFileName,

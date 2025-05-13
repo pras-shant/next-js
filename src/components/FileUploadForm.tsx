@@ -1,3 +1,5 @@
+'use client'
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 
 const FileUploadForm: React.FC = () => {
@@ -5,6 +7,7 @@ const FileUploadForm: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const router = useRouter();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0] || null;
@@ -14,7 +17,7 @@ const FileUploadForm: React.FC = () => {
       setError(null);
     } else {
       setFile(null);
-      setError("Please upload a valid .tar file.");
+      setError("Please upload a valid .tar.xz file.");
     }
   };
 
@@ -33,7 +36,6 @@ const FileUploadForm: React.FC = () => {
     const formData = new FormData();
     formData.append("file", file);
 
-    // Retrieve the token from localStorage
     const token = localStorage.getItem("token");
 
     if (!token) {
@@ -46,7 +48,7 @@ const FileUploadForm: React.FC = () => {
       const response = await fetch("/api/upload", {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${token}`, // Add the token to the Authorization header
+          Authorization: `Bearer ${token}`,
         },
         body: formData,
       });
@@ -59,12 +61,15 @@ const FileUploadForm: React.FC = () => {
       setSuccessMessage(
         `File uploaded successfully! File name: ${data.fileName} && File url: ${data.s3Url}`
       );
+      router.push(`/?fileUrl=${encodeURIComponent(data.s3Url)}`);
+
     } catch (err: any) {
       setError(err.message || "An error occurred while uploading the file.");
     } finally {
       setIsUploading(false);
     }
   };
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -128,7 +133,7 @@ const FileUploadForm: React.FC = () => {
       >
         {isUploading ? "Uploading..." : "Upload"}
       </button>
-      {successMessage && (
+      {/* {successMessage && (
         <p
           style={{
             marginTop: "16px",
@@ -138,7 +143,7 @@ const FileUploadForm: React.FC = () => {
         >
           {successMessage}
         </p>
-      )}
+      )} */}
     </form>
   );
 };
