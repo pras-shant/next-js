@@ -1,17 +1,29 @@
 "use client";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import "./layout.css"; // Import the CSS file for styling
 import Link from "next/link";
-
+import { usePathname, useRouter } from 'next/navigation';
 interface LayoutProps {
   children: ReactNode;
 }
 
 export default function Layout({ children }: LayoutProps) {
   const [fileUrl, setFileUrl] = useState<string | null>(null);
+    const [loading, setLoading] = useState(false);
+    const router = useRouter();
+    const pathname = usePathname();
 
+  const navigateWithLoader = async (path: string) => {
+    setLoading(true);
+    router.push(path);
+  };
+
+    useEffect(() => {
+    setLoading(false);
+  }, [pathname]);
   // Fetch and download Docker image from the backend
   const fetchAndDownloadDockerImage = async () => {
+        setLoading(true);
     try {
       const response = await fetch("/api/load-and-push-ecr", {
         headers: {
@@ -34,7 +46,9 @@ export default function Layout({ children }: LayoutProps) {
       alert(
         "An unexpected error occurred while fetching and downloading the Docker image."
       );
-    }
+    }finally {
+      setLoading(false);
+    } 
   };
 
   // Push the Docker image to ECR
@@ -43,6 +57,9 @@ export default function Layout({ children }: LayoutProps) {
       alert("No Docker image downloaded. Please download the image first.");
       return;
     }
+
+   
+    setLoading(true);
 
     try {
       const repoName =
@@ -71,21 +88,31 @@ export default function Layout({ children }: LayoutProps) {
     } catch (error) {
       console.error("Error during API call:", error);
       alert("An unexpected error occurred. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="layout-container">
-      {/* Sidebar */}
+      {loading && (
+        <div className="loader-overlay">
+          <div className="spinner" />
+        </div>
+      )}
       <aside className="layout-sidebar">
         <h2>Agent Protocol</h2>
         <div className="nav-links-container">
           <ul>
             <li>
-              <a href="/">Connect Wallet</a>
+               <button onClick={() => navigateWithLoader('/')}>Connect Wallet</button>
             </li>
             <li>
-              <a href="/upload">Upload Docker Image</a>
+               <button onClick={() => navigateWithLoader('/upload')}>Upload Docker Image</button>
+            </li>
+            <li>
+                   <button onClick={() => navigateWithLoader('/chat')}>Chat Bot</button>
+
             </li>
             <li>
               <>

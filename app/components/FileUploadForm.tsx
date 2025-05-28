@@ -1,7 +1,6 @@
 'use client'
-import { useRouter } from "next/router";
 import React, { useState } from "react";
-
+import { useRouter } from 'next/navigation';
 const FileUploadForm: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);

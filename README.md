@@ -10,3 +10,6 @@ Install the Reown SDK:
 
 ```bash
 npm install 
+
+bypass peer dependency conflict
+npm i --legacy-peer-deps

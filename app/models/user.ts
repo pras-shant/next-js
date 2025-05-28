@@ -7,7 +7,8 @@ export interface IUser extends Document {
   email: string;
   created_at: Date;
   is_active: boolean;
-  nonce: string; // Add nonce field
+  nonce: string; 
+  subscriptionExpiry : Date;
 }
 
 // Update UserSchema to include nonce field
@@ -17,7 +18,8 @@ const UserSchema = new Schema<IUser>({
   email: { type: String, required: false },
   created_at: { type: Date, default: Date.now },
   is_active: { type: Boolean, default: false },
-  nonce: { type: String, required: false }, // New field
+  nonce: { type: String, required: false },
+  subscriptionExpiry:{type: Date,  default: Date.now }
 });
 
 // Export the model with the appropriate TypeScript type

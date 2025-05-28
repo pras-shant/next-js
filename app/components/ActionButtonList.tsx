@@ -107,7 +107,7 @@ export const ActionButtonList = () => {
         const saveData = await saveResponse.json();
         console.log("User address saved successfully:", saveData);
         localStorage.setItem("token", saveData.token);
-        window.location.href = "/upload";
+        localStorage.setItem("userData",JSON.stringify(saveData.data));
       }
     } catch (error) {
       console.error("Error verifying signature:", error);
@@ -116,11 +116,13 @@ export const ActionButtonList = () => {
 
   const handleDisconnect = async () => {
     try {
+      localStorage.clear();
       await disconnect();
     } catch (error) {
       console.error("Failed to disconnect:", error);
     }
   };
+  
 
   return (
     <div>

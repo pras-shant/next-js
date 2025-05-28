@@ -9,7 +9,7 @@ import Busboy from "busboy";
 
 export const config = {
   api: {
-    bodyParser: false, // Disable default body parser to use Busboy
+    bodyParser: false, 
   },
 };
 
