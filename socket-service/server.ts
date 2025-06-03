@@ -32,9 +32,8 @@ const io = new Server(server, {
 
 const PORT = 3001;
 const JWT_SECRET = "your-secret-key";
-const HF_TOKEN = process.env.HF_Token;
 
-const client = new InferenceClient(HF_TOKEN);
+const client = new InferenceClient(process.env.Hf_Token);
 
 app.use(cors({
   origin: "http://localhost:3000",
