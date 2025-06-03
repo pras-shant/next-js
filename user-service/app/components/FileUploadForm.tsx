@@ -70,69 +70,41 @@ const FileUploadForm: React.FC = () => {
   };
 
   return (
-    <form
+  <form
       onSubmit={handleSubmit}
-      style={{
-        padding: "16px",
-        border: "1px solid #ccc",
-        borderRadius: "8px",
-        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-        maxWidth: "400px",
-        margin: "0 auto",
-      }}
+      className="p-4 border border-gray-300 rounded-lg shadow max-w-md mx-auto"
     >
-      <div style={{ marginBottom: "16px" }}>
+      <div className="mb-4">
         <label
           htmlFor="file"
-          style={{
-            display: "block",
-            fontSize: "14px",
-            fontWeight: "500",
-            color: "#333",
-            marginBottom: "8px",
-          }}
+          className="block text-sm font-medium text-gray-700 mb-2"
         >
           Upload a .tar file
         </label>
         <input
           type="file"
           id="file"
-          accept=".tar"
+          accept=".tar.xz"
           onChange={handleFileChange}
-          style={{
-            display: "block",
-            width: "100%",
-            padding: "8px",
-            fontSize: "14px",
-            border: "1px solid #ccc",
-            borderRadius: "4px",
-            backgroundColor: "#f9f9f9",
-          }}
+          className="block w-full px-3 py-2 text-sm border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:ring focus:ring-blue-300"
         />
         {error && (
-          <p style={{ marginTop: "8px", fontSize: "12px", color: "#e53e3e" }}>
-            {error}
-          </p>
+          <p className="mt-2 text-sm text-red-600">{error}</p>
         )}
       </div>
       <button
         type="submit"
         disabled={isUploading}
-        style={{
-          width: "100%",
-          padding: "10px",
-          fontSize: "16px",
-          fontWeight: "600",
-          color: "#fff",
-          backgroundColor: isUploading ? "#93c5fd" : "#3b82f6",
-          border: "none",
-          borderRadius: "4px",
-          cursor: isUploading ? "not-allowed" : "pointer",
-        }}
+        className={`w-full px-4 py-2 text-white font-semibold rounded-md ${
+          isUploading ? 'bg-blue-300 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'
+        }`}
       >
-        {isUploading ? "Uploading..." : "Upload"}
+        {isUploading ? 'Uploading...' : 'Upload'}
       </button>
-  
+
+      {successMessage && (
+        <p className="mt-4 text-green-600 text-sm">{successMessage}</p>
+      )}
     </form>
   );
 };

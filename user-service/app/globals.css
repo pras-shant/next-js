@@ -1,109 +1,92 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@import "tailwindcss";
+
+
+
+
+/*    css  */
+.page-container {
+  padding-bottom: 60px;
+  max-width: var(--page-width-max);
 }
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
+
+.elements-style {
+  color: var(--elements-color);
+  border: 1px solid var(--elements-color);
+}
+.elements-style-background {
+  background: var(--elements-color);
+  transition: box-shadow var(--transition-duration);
+}
+.card.elements-style-background:hover {
+  box-shadow:
+    20px 20px 60px #464e9c,
+    -20px -20px 60px #8896ff;
+}
+.checkout-style {
+  color: var(--checkout-color);
+  border: 1px solid var(--checkout-color);
+}
+.checkout-style-background {
+  background: var(--checkout-color);
+  transition: box-shadow var(--transition-duration);
+}
+.card.checkout-style-background:hover {
+  box-shadow:
+    20px 20px 60px #614b91,
+    -20px -20px 60px #bd91ff;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Test card number */
+.test-card-notice {
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
+.card-number {
+  display: inline;
+  white-space: nowrap;
+  font-family: Menlo, Consolas, monospace;
+  color: #3c4257;
+  font-weight: 500;
+}
+.card-number span {
+  display: inline-block;
+  width: 4px;
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+@media only screen and (max-width: 600px) {
+  .container {
+    flex-direction: column;
   }
-}
 
-section {
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 16px;
-  background-color: #f9f9f9;
-  padding: 13px;
-  margin: 10px;
-  width: 90%;
-  text-align: left;
-}
+  .card {
+    display: block;
+    border-radius: 8px;
+    flex: 1 0 100%;
+    max-width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+    margin: 0 0 20px 0;
+    box-shadow: none;
+  }
 
-.pages {
-  align-items: center;
-  justify-items: center;
-  text-align: center;
-}
+  .card-list {
+    padding-top: 0;
+  }
 
-button {
-  padding: 10px 15px;
-  background-color: white;
-  color: black;
-  border: 2px solid black;
-  border-radius: 6px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin: 15px; /* Space between buttons */
-}
+  code,
+  pre,
+  h3 {
+    display: none;
+  }
 
-button:hover {
-  background-color: black;
-    color: white;
-}
-
-button:active {
-  background-color: #333; /* Dark gray on click */
-    color: white;
-}
-
-h1 {
-  margin: 20px;
-}
-
-pre {
-  white-space: pre-wrap; /* Wrap text */
-  word-wrap: break-word; /* Break long words */
-  word-break: break-all;
-}
-
-
-.link-button {
-  background-color: black;
-  color: white;
-  padding: 5px 10px;
-  text-decoration: none;
-  border-radius: 5px;
-}
-
-.link-button:hover {
-  background-color: #333;  /* Darken the background on hover */
-}
-
-.link-button:hover {
-  background-color: white;  /* Change background to white on hover */
-  color: black;  /* Change text color to black on hover */
-}
-
-.advice {
-  text-align: 'center';
-   margin-bottom: 10px;
-   line-height: 25px;
+  .banner {
+    box-shadow: none;
+    bottom: 0;
+  }
 }

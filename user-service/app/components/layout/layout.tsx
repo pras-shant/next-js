@@ -1,6 +1,5 @@
 "use client";
 import { ReactNode, useEffect, useState } from "react";
-import "./layout.css"; // Import the CSS file for styling
 import Link from "next/link";
 import { usePathname, useRouter } from 'next/navigation';
 interface LayoutProps {
@@ -21,20 +20,18 @@ export default function Layout({ children }: LayoutProps) {
     useEffect(() => {
     setLoading(false);
   }, [pathname]);
-  // Fetch and download Docker image from the backend
   const fetchAndDownloadDockerImage = async () => {
         setLoading(true);
     try {
       const response = await fetch("/api/load-and-push-ecr", {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`, // Replace with your token logic
+          Authorization: `Bearer ${localStorage.getItem("token")}`, 
         },
       });
 
       if (!response.ok) {
         const errorMessage = await response.text();
         console.error("Error fetching file URL:", errorMessage);
-        // alert("Failed to fetch and download Docker image. Please try again.");
         return;
       }
 
@@ -51,14 +48,11 @@ export default function Layout({ children }: LayoutProps) {
     } 
   };
 
-  // Push the Docker image to ECR
   const handlePushImage = async () => {
     if (!fileUrl) {
       alert("No Docker image downloaded. Please download the image first.");
       return;
     }
-
-   
     setLoading(true);
 
     try {
@@ -94,47 +88,57 @@ export default function Layout({ children }: LayoutProps) {
   };
 
   return (
-    <div className="layout-container">
+
+    <div className="flex h-screen">
       {loading && (
-        <div className="loader-overlay">
-          <div className="spinner" />
+        <div className="fixed top-0 left-0 w-full h-full bg-white/60 z-50 flex justify-center items-center">
+          <div className="w-12 h-12 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin" />
         </div>
       )}
-      <aside className="layout-sidebar">
-        <h2>Agent Protocol</h2>
-        <div className="nav-links-container">
-          <ul>
-            <li>
-               <button onClick={() => navigateWithLoader('/')}>Connect Wallet</button>
-            </li>
-            <li>
-               <button onClick={() => navigateWithLoader('/upload')}>Upload Docker Image</button>
-            </li>
-            <li>
-                   <button onClick={() => navigateWithLoader('/chat')}>Chat Bot</button>
 
+      <aside className="w-64 bg-[#0b1c2c] text-white p-5 flex flex-col shadow-lg">
+        <h2 className="text-2xl font-bold border-b-2 border-[#1e3a5f] pb-2 mb-4">Agent Protocol</h2>
+
+        <div className="flex-grow">
+          <ul className="space-y-3">
+            <li>
+              <button onClick={() => navigateWithLoader("/")} className="w-full bg-gradient-to-r from-[#02213b91] to-[#004f8f91] text-white py-2 px-4 rounded-lg font-semibold shadow hover:from-[#0f518691] hover:to-[#007fe791] hover:shadow-lg transition-all">
+                Connect Wallet
+              </button>
             </li>
             <li>
-              <>
-                <button onClick={fetchAndDownloadDockerImage}>
-                  Download Image
-                </button>
-
-                <button onClick={handlePushImage}>Push to Registry</button>
-              </>
+              <button onClick={() => navigateWithLoader("/upload")} className="w-full bg-gradient-to-r from-[#02213b91] to-[#004f8f91] text-white py-2 px-4 rounded-lg font-semibold shadow hover:from-[#0f518691] hover:to-[#007fe791] hover:shadow-lg transition-all">
+                Upload Docker Image
+              </button>
             </li>
+            <li>
+              <button onClick={() => navigateWithLoader("/chat")} className="w-full bg-gradient-to-r from-[#02213b91] to-[#004f8f91] text-white py-2 px-4 rounded-lg font-semibold shadow hover:from-[#0f518691] hover:to-[#007fe791] hover:shadow-lg transition-all">
+                Chat Bot
+              </button>
+            </li>
+            <li>
+              <button onClick={fetchAndDownloadDockerImage} className="w-full bg-gradient-to-r from-[#02213b91] to-[#004f8f91] text-white py-2 px-4 rounded-lg font-semibold shadow hover:from-[#0f518691] hover:to-[#007fe791] hover:shadow-lg transition-all">
+                Download Image
+              </button>
+                </li>
+                <li>
+              <button onClick={handlePushImage} className="w-full bg-gradient-to-r from-[#02213b91] to-[#004f8f91] text-white py-2 px-4 rounded-lg font-semibold shadow hover:from-[#0f518691] hover:to-[#007fe791] hover:shadow-lg transition-all">
+                Push to Registry
+              </button>
+                </li>
+            <li className="mt-auto">
+          <Link href="/donate" className="block text-center bg-[#112b45] text-[#b0c7f2] py-3 rounded-lg shadow-md hover:-translate-y-1 hover:shadow-lg transition-all">
+            <h2 className="text-lg">Stripe Payment</h2>
+          </Link>
+        </li>
           </ul>
         </div>
-        <div className="donate-container">
-          <Link href="/donate" className="card elements-style-background">
-            <h2 className="bottom">Donate with Elements</h2>
-            <img src="/elements-card-payment.svg" alt="Donate" />
-          </Link>
-        </div>
-      </aside>
 
-      {/* Main Content */}
-      <main className="layout-main">{children}</main>
+      
+      </aside>
+      <main className="flex-1 bg-gray-100 p-6 overflow-y-auto">
+        {children}
+      </main>
     </div>
   );
 }

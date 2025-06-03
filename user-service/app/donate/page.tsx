@@ -16,7 +16,7 @@ export default function IndexPage(): JSX.Element {
           href="/donate-with-elements"
           className="card elements-style-background"
         >
-          <h2 className="bottom">Donate with Elements</h2>
+          <h2 className="bottom">Stripe Payment</h2>
           <img src="/elements-card-payment.svg" />
         </Link>
       </li>

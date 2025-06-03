@@ -5,17 +5,22 @@ import type Stripe from "stripe";
 import React, { useState } from "react";
 import { JSX } from "react";
 
-import CustomDonationInput from "@/app/components/CustomDonationInput";
-import StripeTestCards from "@/app/components/StripeTestCards";
+// import CustomDonationInput from "@/app/components/CustomDonationInput";
+// import StripeTestCards from "@/app/components/StripeTestCards";
 
-import { formatAmountForDisplay } from "@/utils/stripe-helpers";
-import * as config from "@/config";
+// import { formatAmountForDisplay } from "@/utils/stripe-helpers";
+// import * as config from "@/config";
 import { createCheckoutSession } from "../actions/stripe";
-import getStripe from "@/utils/get-stripejs";
+// import getStripe from "@/utils/get-stripejs";
 import {
   EmbeddedCheckout,
   EmbeddedCheckoutProvider,
 } from  "@stripe/react-stripe-js";
+import { config } from "../config";
+import CustomDonationInput from "./CustomDonationInput";
+import StripeTestCards from "./StripeTestCards";
+import { formatAmountForDisplay } from "../utils/stripe-helpers";
+import getStripe from "../utils/get-stripejs";
 
 interface CheckoutFormProps {
   uiMode: Stripe.Checkout.SessionCreateParams.UiMode;
