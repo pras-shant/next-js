@@ -32,7 +32,7 @@ const io = new Server(server, {
 
 const PORT = 3001;
 const JWT_SECRET = "your-secret-key";
-const HF_TOKEN = "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";
+const HF_TOKEN = process.env.HF_Token;
 
 const client = new InferenceClient(HF_TOKEN);
 
