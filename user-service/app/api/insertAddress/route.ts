@@ -7,7 +7,7 @@ import User from "../../models/user";
 
 // Secret key for signing the JWT (store securely in environment variables)
 const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
-
+console.log(JWT_SECRET,'jwttt secret')
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
@@ -30,7 +30,13 @@ export async function POST(req: NextRequest) {
     }
 
     // Generate a JWT token with the user_address as payload
-    const token = jwt.sign({ user_address }, JWT_SECRET, { expiresIn: "1h" });
+    const token = jwt.sign({ user_address,role:'creator' }, JWT_SECRET, { expiresIn: "1h" });
+    //     const token = jwt.sign(
+    //   { id: user._id.toString(), role: 'creator' },
+    //   JWT_SECRET,
+    //   { expiresIn: "1h" }
+    // );
+
 
     return NextResponse.json(
       {

@@ -6,10 +6,12 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 // Secret key (use environment variable in real app)
 const JWT_SECRET = process.env.JWT_SECRET || "prashant123";
-
+console.log(JWT_SECRET,'jwrrrrrrrr')
 // Token validator
 function validateTokenAndGetWallet(token: string): string | null {
   try {
+    const decode = jwt.decode(token)
+    console.log(JWT_SECRET,'jwttt')
     const decoded = jwt.verify(token, JWT_SECRET) as any;
     return decoded.user_address;
   } catch (error) {
@@ -32,6 +34,7 @@ export async function GET(req: NextRequest) {
     }
 
     const userWallet = validateTokenAndGetWallet(token);
+    console.log(userWallet,'user walller')
     if (!userWallet) {
       return NextResponse.json({ error: "Invalid token" }, { status: 401 });
     }
